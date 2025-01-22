@@ -1,0 +1,32 @@
+{
+    "name": "SEAL Signature",
+    "description": "View SEAL signatures on a website",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "icons": {
+        "16": "/images/logo-16x16.png",
+        "48": "/images/logo-48x48.png",
+        "128": "/images/logo-128x128.png"
+    },
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "contextMenus"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/*"
+            ],
+            "js": [
+                "main.js"
+            ]
+        }
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    }
+}

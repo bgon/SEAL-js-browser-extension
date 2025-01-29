@@ -101,7 +101,7 @@ function addModalOverlay(result: any, error: string) {
         color-scheme: light dark;
         font-family: sans-serif;
         position: fixed;
-        background-color: light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+        background: light-dark(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
         top: 0;
         left: 0;
         height: 100%;
@@ -113,7 +113,7 @@ function addModalOverlay(result: any, error: string) {
     }
     
     #seal-modal #panel {
-        background-color: light-dark(white, #1b1b1b);
+        background: light-dark(white, #1b1b1b);
         box-shadow: 0px 0px 24px 0px rgba(66, 68, 90, 1);
         padding: 10px;
         border-radius: 10px;
@@ -123,7 +123,7 @@ function addModalOverlay(result: any, error: string) {
     
     #seal-modal button {
         height: 20px;
-        background-color: transparent;
+        background: transparent;
         border: unset;
         cursor: pointer;
         font-size: 16px;
@@ -147,7 +147,7 @@ function addModalOverlay(result: any, error: string) {
     }
     
     #seal-modal button:hover {
-        background-color: transparent;
+        background: transparent;
     }
     
     #seal-modal button:active {
@@ -160,6 +160,7 @@ function addModalOverlay(result: any, error: string) {
     }
     
     #seal-modal .header {
+        background: light-dark(white, #1b1b1b);
         display: flex;
         justify-content: space-between;
         justify-items: center;
@@ -266,6 +267,7 @@ function addModalOverlay(result: any, error: string) {
     }
     
     #seal-modal .tabs .content {
+        background: light-dark(white, #1b1b1b);
         z-index: 0;
         /* or display: none; */
         overflow: hidden;
@@ -292,7 +294,10 @@ function addModalOverlay(result: any, error: string) {
         opacity: 1;
         transition: opacity 400ms ease-out;
     }
-
+    #seal-modal .footer {
+        background: light-dark(white, #1b1b1b);
+        font-size: 16px;
+    }
     #seal-modal .valid { border:1px solid white}
     #seal-modal .not_valid {border:1px solid red}`
 

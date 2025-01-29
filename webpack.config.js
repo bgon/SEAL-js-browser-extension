@@ -3,9 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const outputPath = 'dist';
 const entryPoints = {
-    main: [
-        path.resolve(__dirname, 'src', 'main.ts'),
-    ],
+    main: [path.resolve(__dirname, 'src', 'main.ts'),],
     background: path.resolve(__dirname, 'src', 'background.ts')
 };
 

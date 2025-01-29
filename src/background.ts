@@ -20,6 +20,28 @@ chrome.runtime.onInstalled.addListener(function (details) {
   createContextMenu()
 })
 
+/*
+// ID to manage the context menu entry
+let cmid: string | null = null;
+
+const cm_clickHandler: (clickData: any, tab: chrome.tabs.Tab) => void = function
+  (clickData, tab) {
+  alert(`Selected ${clickData?.selectionText || ''} in ${tab.url}`);
+};
+
+chrome.runtime.onMessage.addListener(async function listener(msg: {
+  request: string;
+  selection?: string
+}, sender: chrome.runtime.MessageSender, sendResponse: (response:
+  any) => void): Promise<void> {
+  if (msg.request === 'updateContextMenu') {
+
+    chrome.contextMenus.update("viewMediaSignature",{title: msg.selection})
+  }
+});
+
+*/
+
 /**
  * Creates a context menu item for viewing media signatures.
  */
@@ -52,5 +74,36 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   // If the tab ID is present, send the message to the content script in the tab.
   if (tab?.id != null) {
     void chrome.tabs.sendMessage(tab.id, message);
+  }
+});
+
+
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  console.log("message opentab",message)
+  if (message.action === 'openTab') {
+    console.log('Message received:', message);
+    let tab = await chrome.tabs.create({ url: message.imageSrc, active: false });
+    let cors_tab_id = tab.id
+
+    console.log("tab", tab)
+
+
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+     
+      if (cors_tab_id == tabId && changeInfo.status === 'complete') {
+
+        console.log('Tab loaded:', tab.url);
+
+        message = { action: "viewMediaSignature", url: message.imageSrc };
+
+        void chrome.tabs.sendMessage(cors_tab_id, message);
+
+
+      }
+
+    });
+
+
+    sendResponse({ response: 'tab opened' });
   }
 });

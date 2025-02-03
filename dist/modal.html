@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<script>
+    // Set up message event handler:
+
+    let data;
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        window.addEventListener('message', function (event) {
+
+            data = event.data
+
+            if (data.valid == undefined) {
+                document.getElementById('information-container').setAttribute("style", `
+                display: none;`);
+                document.getElementById('detail-container').setAttribute("style", `
+                display: none;`);
+            }
+
+            if (data.domain) {
+                document.getElementById("info-domain").textContent = data.domain;
+                document.getElementById("info-domain").href = "https://" + data.domain;
+            }
+            if (data.user) {
+                document.getElementById("info-user").textContent = data.user;
+            }
+            if (data.signed_on) {
+                document.getElementById("info-signed_on").textContent = data.signed_on;
+            }
+
+            for (const [key, value] of Object.entries(data)) {
+
+                switch (key) {
+                    case "url":
+                        if (document.getElementById('preview')) {
+                            document.getElementById('preview').src = value
+                        }
+                        break;
+                    case "valid":
+                        if (value === true) {
+                            document.getElementById('valid').classList.replace("not_valid", "valid");
+                            document.getElementById("reason").textContent = "The content of this media has not been altered after it was digitally signed."
+                        } else {
+                            document.getElementById("reason").textContent = "The content of this media has been altered after it was digitally signed."
+                        }
+                        break;
+                    case "digest_algorithm":
+                        if (document.getElementById('digest_algorithm')) {
+                            document.getElementById('digest_algorithm').textContent = `${value} Fingerprints`
+                        }
+                        break;
+
+                    default:
+                        if (document.getElementById(key)) {
+                            document.getElementById(key).textContent = value
+                        }
+                        break;
+                }
+
+            }
+        });
+    });
+</script>
+
+<head>
+    <link rel="stylesheet" href="modal.css">
+</head>
+<div class="content">
+
+    <div class="header" id="information">
+        <div> </div>
+        <h2> Signature information</h2>
+        <div></div>
+    </div>
+
+    <div class="row">
+        <div class="col34">
+            <div class="media-preview">
+                <img id="preview">
+            </div>
+
+
+        </div>
+        <div class="col66" >
+            <div class="groups">
+
+                <h3 class="fw-bold">Summary</h3>
+
+                <div>
+                    <div class="attribute">File</div>
+                    <div id="filename" class="value"></div>
+                </div>
+                <div>
+                    <div class="attribute">File Type</div>
+                    <div id="filemime" class="value"></div>
+                </div>
+                <div>
+
+                    <div class="attribute">Hostname</div>
+                    <div id="filedomain" class="value"></div>
+                </div>
+            </div>
+            <div class="groups" id="information-container">
+                <div>
+                    <div class="attribute">Signed By</div>
+                    <div class="value"><a href="" id="info-domain"></a><br>for user
+                        <span id="info-user"></span>
+                    </div>
+                </div>
+                <div><span></span></div>
+                <div>
+                    <div class="attribute">Signed On</div>
+                    <div id="info-signed_on" class="value"></div>
+                </div>
+
+                <div>
+                    <div class="attribute">Copyright</div>
+                    <div id="copyright" class="value"></div>
+                </div>
+                <div>
+                    <div class="attribute">Comment</div>
+                    <div id="comment" class="value"></div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+    <div id="valid" class="row not_valid">
+        <div class="groups">
+            <div>
+                <div class="message">
+                    <div>
+                        <h3 id="message" class="fw-bold">ceci est le message </h3>
+                    </div>
+                    <div><a href="#detail" id="detail-container" title="Show signature details">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-box-arrow-up-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                                <path fill-rule="evenodd"
+                                    d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                            </svg>
+                        </a></div>
+                </div>
+
+            </div>
+            <p id="reason"></p>
+            <a href="https://github.com/hackerfactor/SEAL/blob/master/README.md"
+                title="Secure Evidence Attribution Label (SEAL)">Learn More</a>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="header" id="detail">
+        <div><a href="#information" title="Back"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                    fill="currentColor" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
+                </svg></a></div>
+        <h2> Details</h2>
+        <div></div>
+    </div>
+
+    <div class="row">
+
+        <div class="groups ">
+
+
+            <!-- Signed by -->
+            <div>
+                <h3 class="fw-bold">Signed By</h3>
+            </div>
+            <div>
+                <div class="attribute">Domain</div>
+                <div id="domain" class="value"></div>
+            </div>
+            <div>
+                <div class="attribute">User</div>
+                <div id="user" class="value"></div>
+            </div>
+
+            <!-- Signed On -->
+            <div>
+                <h3 class="fw-bold">Signed On</h3>
+            </div>
+            <div>
+                <div class="attribute">Datetime GMT</div>
+                <div id="signed_on" class="value"></div>
+            </div>
+
+
+            <!-- Signature -->
+            <div>
+                <h3 class="fw-bold">Signature</h3>
+            </div>
+            <div>
+                <div class="attribute">File Size</div>
+                <div id="filesize" class="value"></div>
+            </div>
+            <div>
+                <div class="attribute">Signed Bytes</div>
+                <div id="signed_bytes" class="value"></div>
+            </div>
+            <div>
+                <div class="attribute">Spans</div>
+                <div id="spans" class="value"></div>
+            </div>
+
+
+
+            <!-- Fingerprints -->
+            <div>
+                <h3 id="digest_algorithm" class="fw-bold"></h3>
+            </div>
+            <div>
+                <div class="attribute">Digest</div>
+                <div id="digest" class="hashvalue"></div>
+            </div>
+            <div>
+                <div class="attribute">Double Digest</div>
+                <div id="double_digest" class="hashvalue"></div>
+            </div>
+
+            <!-- Public key -->
+            <div>
+                <h3 class="fw-bold">Public Key</h3>
+            </div>
+            <div>
+                <div class="attribute">Algorithm</div>
+                <div id="key_algorithm" class="value"></div>
+            </div>
+            <div>
+                <div class="attribute">Base64</div>
+                <div id="key_base64" class="hashvalue"></div>
+            </div>
+        </div>
+    </div>
+</div>

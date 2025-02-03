@@ -1,0 +1,134 @@
+body {
+    color-scheme: light dark;
+    font-family: sans-serif;
+    background: light-dark(white, #1b1b1b);
+    color: light-dark(#1b1b1b, white);
+    overflow: hidden; 
+    font-size: 16px;   
+}
+.content {
+    height: 512px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    padding:4px;
+}
+
+.col {
+    display: flex;
+    flex-direction:column;
+    padding:4px;
+}
+
+.col34 {
+    display: flex;
+    flex-direction:column;
+    width: 34%;
+    padding:4px;
+}
+
+.col66 {
+    display: flex;
+    flex-direction:column;
+    width: 66%;
+    padding:4px;
+}
+.message {
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+    align-items: center;
+}
+.media-preview {
+    background-image: repeating-linear-gradient(45deg, #8e8f98 25%, transparent 25%, transparent 75%, #8e8f98 75%, #8e8f98), repeating-linear-gradient(45deg, #8e8f98 25%, #e5e5f7 25%, #e5e5f7 75%, #8e8f98 75%, #8e8f98);
+    background-position: 0 0, 8px 8px;
+    background-size: 16px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.media-preview img {
+    max-width: 100%;
+    height: 180px;
+    object-fit: contain;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+
+.fw-bold {
+    font-weight: 700 !important;
+    
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+}
+
+.header a {
+    color: light-dark(#1b1b1b, white);
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+a:visited{
+    color: light-dark(#1b1b1b, white);
+    padding: 8px 12px;
+
+}
+
+.groups {
+    padding: 0rem 0rem;
+}
+
+.groups>div>div {
+    
+    line-height: 18px;
+    padding-inline-start: 20px;
+
+}
+
+.groups>* {
+    display: table-row;
+
+}
+
+h2 {
+    user-select: none;
+}
+
+h3 {
+    font-size: 18px;
+}
+
+.attribute {
+    display: table-cell;
+    white-space: nowrap;
+}
+
+.hashvalue {
+    display: table-cell;
+    overflow-wrap: anywhere;
+}
+
+.value {
+    display: table-cell;
+}
+
+.valid {
+    border: 1px solid white
+}
+
+.not_valid {
+    border: 1px solid red
+}

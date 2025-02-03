@@ -12,7 +12,7 @@ export class DoH {
    *
    * @static
    * @param {string} hostname
-   * @param {string} [doh='cloudflare']
+   * @param {string} [doh_api='https://mozilla.cloudflare-dns.com/dns-query']
    * @return {*}  {Promise<string[]>}
    * @memberof SEAL
    */

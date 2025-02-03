@@ -9,12 +9,18 @@
         "128": "/images/logo-128x128.png"
     },
     "permissions": [
-        "activeTab",
-        "scripting",
-        "contextMenus",
-        "webRequest",
-        "tabs",
-        "webNavigation"
+        "contextMenus"
+    ],
+    "web_accessible_resources": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "resources": [
+                "modal.html",
+                "modal.css"
+            ]
+        }
     ],
     "content_scripts": [
         {
@@ -23,7 +29,8 @@
             ],
             "js": [
                 "main.js"
-            ]
+            ],
+            "run_at": "document_end"
         }
     ],
     "action": {
@@ -31,5 +38,10 @@
     },
     "background": {
         "service_worker": "background.js"
+    },
+    "sandbox": {
+        "pages": [
+            "modal.html"
+        ]
     }
 }

@@ -20,6 +20,29 @@ chrome.runtime.onInstalled.addListener(function (details) {
   createContextMenu()
 })
 
+
+
+chrome.action.onClicked.addListener((tab: chrome.tabs.Tab) => {
+  let tab_id = tab["id"]
+  if (tab_id)
+    chrome.scripting.executeScript({
+      target: { tabId: tab_id },
+      func: ()=>injectIframe,
+    });
+});
+
+function injectIframe() {
+  const iframe = document.createElement('iframe') as HTMLIFrameElement;
+  iframe.src = 'https://example.com';
+  iframe.style.width = '600px';
+  iframe.style.height = '400px';
+  document.body.appendChild(iframe);
+
+  iframe.onload = () => {
+    iframe.contentWindow?.postMessage('Hello from the parent page!', '*');
+  };
+}
+
 /*
 // ID to manage the context menu entry
 let cmid: string | null = null;
@@ -77,33 +100,17 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  console.log("message opentab",message)
   if (message.action === 'openTab') {
-    console.log('Message received:', message);
     let tab = await chrome.tabs.create({ url: message.imageSrc, active: false });
     let cors_tab_id = tab.id
 
-    console.log("tab", tab)
-
-
     chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-     
       if (cors_tab_id == tabId && changeInfo.status === 'complete') {
-
-        console.log('Tab loaded:', tab.url);
-
         message = { action: "viewMediaSignature", url: message.imageSrc };
-
         void chrome.tabs.sendMessage(cors_tab_id, message);
-
-
       }
-
     });
-
-
     sendResponse({ response: 'tab opened' });
   }
 });

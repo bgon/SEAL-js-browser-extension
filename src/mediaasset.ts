@@ -25,20 +25,14 @@ export class MediaAsset {
     // Start timing the readChunks operation
     console.time('readChunks');
 
-
-
     asset.size = asset.data.byteLength
     // Convert the data to a Uint8Array
     asset.data = new Uint8Array(asset.data);
 
-
     // Detect the MIME type if it's not available
     if (!asset.mime) {
       asset.mime = detectMimeType(asset.data);
-      console.log(asset);
     }
-
-
 
     // scan only the first and last 64kB if file > 64kB
     // probably not working for some formats...
